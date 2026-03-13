@@ -1,21 +1,16 @@
 package com.miguel.miguel.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class AddressResponseDto {
 
-    private  String user_name;
-
+    private long id;
     private String name;
-
     private String street;
-
     private String country_code;
 }

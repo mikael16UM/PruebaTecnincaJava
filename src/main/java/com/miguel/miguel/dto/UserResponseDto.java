@@ -4,19 +4,24 @@ import com.miguel.miguel.model.Address;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import lombok.*;
+
 
 import java.util.List;
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserResponseDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+
     private UUID id;
     private String email;
     private String name;
     private String phone;
-    private String tax_id;
+    private String taxId;
 
-    private List<Address> addresses;
+    private List<AddressResponseDto> addresses;
 }
