@@ -12,10 +12,13 @@ import com.miguel.miguel.mapper.UserMapper;
 import com.miguel.miguel.model.Address;
 import com.miguel.miguel.model.User;
 import com.miguel.miguel.repository.UserRepository;
+import com.miguel.miguel.specification.FilterSpecification;
 import com.miguel.miguel.validation.FieldValidation;
+import com.miguel.miguel.validation.OperatorValidation;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,11 +49,18 @@ public class UserService implements UserInterfaceService{
         String filter_value = filter_args[2];
 
         //validation
+        FieldValidation.FieldValidation(filter_field);
+        OperatorValidation.OperatorValidation(filter_operator);
 
+        Specification<User> spec =
+                FilterSpecification.filterBy(filter_field, filter_operator, filter_value);
 
+        List<User> users = user_repository.findAll(spec);
 
+        return users.stream()
+                .map(UserMapper::toUserResponseDto)
+                .toList();
 
-        return List.of();
     }
 
     @Override
