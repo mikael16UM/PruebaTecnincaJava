@@ -4,7 +4,7 @@ import com.miguel.miguel.exception.NotValidFieldException;
 
 import java.util.List;
 
-public class SortedFieldValidation {
+public class FieldValidation {
     private static final List<String> ALLOWED_FIELDS = List.of(
             "email",
             "id",
@@ -14,11 +14,11 @@ public class SortedFieldValidation {
             "createdAt"
     );
 
-    public static void FieldValidation (String sorted_by) {
-        if (sorted_by == null || sorted_by.isBlank())
+    public static void FieldValidation (String field) {
+        if (field == null || field.isBlank())
             return;
-        if (!ALLOWED_FIELDS.contains(sorted_by))
-            throw new NotValidFieldException(sorted_by + " is not a valid field");
+        if (!ALLOWED_FIELDS.contains(field))
+            throw new NotValidFieldException(field + " is not a valid field");
 
     }
 }

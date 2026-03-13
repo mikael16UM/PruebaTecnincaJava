@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,9 +42,14 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDto>> getAllUsers(@RequestParam(required = false) String sorted_by) {
-        List<UserResponseDto> user_sorted_list = user_service.getAllUsers(sorted_by);
+    public ResponseEntity<List<UserResponseDto>> getSortedUsers(@RequestParam(required = false) String sorted_by) {
+        List<UserResponseDto> user_sorted_list = user_service.getSortedUsers(sorted_by);
 
        return ResponseEntity.ok(user_sorted_list);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDto>> getFilteredUsers(@RequestParam(required = true) String filter) {
+        return ResponseEntity.ok(user_service.getFilteredUsers(filter));
     }
 }

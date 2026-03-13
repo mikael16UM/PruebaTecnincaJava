@@ -5,12 +5,14 @@ import com.miguel.miguel.dto.UserPatchDto;
 import com.miguel.miguel.dto.UserRequestDto;
 import com.miguel.miguel.dto.UserResponseDto;
 import com.miguel.miguel.exception.AlreadyUsedException;
+import com.miguel.miguel.exception.NoFilterException;
+import com.miguel.miguel.exception.NotEnoughArgsExeception;
 import com.miguel.miguel.exception.NotFoundException;
 import com.miguel.miguel.mapper.UserMapper;
 import com.miguel.miguel.model.Address;
 import com.miguel.miguel.model.User;
 import com.miguel.miguel.repository.UserRepository;
-import com.miguel.miguel.validation.SortedFieldValidation;
+import com.miguel.miguel.validation.FieldValidation;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -26,9 +28,35 @@ public class UserService implements UserInterfaceService{
     private UserRepository user_repository;
 
     @Override
-    public List<UserResponseDto> getAllUsers(String sorted_by) {
+    public List<UserResponseDto> getFilteredUsers(String filter) {
+        if (filter == null || filter.isEmpty()) {
+            throw new NoFilterException("Filter cannot be null or empty");
+        }
+        // After we ensured there's no empty filter, we need to split the string to do the actual filter db query
 
-        SortedFieldValidation.FieldValidation(sorted_by);
+        //We (me and Myself, lol) asumed the arg separation is provided with : between args
+
+        String[] filter_args = filter.split(":", 3);
+
+        if(filter_args.length != 3){
+            throw new NotEnoughArgsExeception("Invalid filter format");
+        }
+        String filter_field = filter_args[0];
+        String filter_operator = filter_args[1];
+        String filter_value = filter_args[2];
+
+        //validation
+
+
+
+
+        return List.of();
+    }
+
+    @Override
+    public List<UserResponseDto> getSortedUsers(String sorted_by) {
+
+        FieldValidation.FieldValidation(sorted_by);
 
         if(sorted_by == null || sorted_by.isBlank()) {
             return user_repository.findAll().stream().map(UserMapper::toUserResponseDto).toList();
