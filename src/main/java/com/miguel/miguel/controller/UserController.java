@@ -41,14 +41,14 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    @GetMapping
+    @GetMapping(params = "sorted_by")
     public ResponseEntity<List<UserResponseDto>> getSortedUsers(@RequestParam(required = false) String sorted_by) {
         List<UserResponseDto> user_sorted_list = user_service.getSortedUsers(sorted_by);
 
        return ResponseEntity.ok(user_sorted_list);
     }
 
-    @GetMapping
+    @GetMapping(params = "filter")
     public ResponseEntity<List<UserResponseDto>> getFilteredUsers(@RequestParam(required = true) String filter) {
         return ResponseEntity.ok(user_service.getFilteredUsers(filter));
     }
