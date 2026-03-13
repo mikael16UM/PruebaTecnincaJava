@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class User {
     private String password;
     @Column(name = "tax_id", unique = true)
     private String taxId;
+    @CreationTimestamp
     @Column(name = "created_at")
     private ZonedDateTime createdAt;
 

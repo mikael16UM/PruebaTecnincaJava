@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:15
+    container_name: pruebatecnica_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: pruebatecnica_bd
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      TZ: Indian/Antananarivo
+    command: [ "postgres", "-c", "timezone=Indian/Antananarivo" ]
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${SPRING_DATASOURCE_USERNAME} -d pruebatecnica_bd" ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: .
+    container_name: pruebatecnica_api
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/pruebatecnica_bd
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
