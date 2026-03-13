@@ -5,6 +5,7 @@ import com.miguel.miguel.dto.UserRequestDto;
 import com.miguel.miguel.dto.UserResponseDto;
 
 import com.miguel.miguel.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto user_request_dto) {
+    public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserRequestDto user_request_dto) {
         UserResponseDto user_response_dto = user_service.createUser(user_request_dto);
         return ResponseEntity.created(URI.create("/api/v1/users" + user_response_dto.getId())).body(user_response_dto);
     }

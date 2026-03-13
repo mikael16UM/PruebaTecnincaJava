@@ -12,6 +12,7 @@ import com.miguel.miguel.mapper.UserMapper;
 import com.miguel.miguel.model.Address;
 import com.miguel.miguel.model.User;
 import com.miguel.miguel.repository.UserRepository;
+import com.miguel.miguel.security.EncryptionSecurity;
 import com.miguel.miguel.specification.FilterSpecification;
 import com.miguel.miguel.validation.FieldValidation;
 import com.miguel.miguel.validation.OperatorValidation;
@@ -27,8 +28,16 @@ import java.util.UUID;
 @Service
 public class UserService implements UserInterfaceService{
 
+    private final UserRepository user_repository;
+    private final EncryptionSecurity encryption_security;
+
     @Autowired
-    private UserRepository user_repository;
+    public UserService(UserRepository user_repository,
+                       EncryptionSecurity encryption_security) {
+
+        this.user_repository = user_repository;
+        this.encryption_security = encryption_security;
+    }
 
     @Override
     public List<UserResponseDto> getFilteredUsers(String filter) {
@@ -89,7 +98,9 @@ public class UserService implements UserInterfaceService{
         user.setEmail(user_request_dto.getEmail());
         user.setName(user_request_dto.getName());
         user.setPhone(user_request_dto.getPhone());
-        user.setPassword(user_request_dto.getPassword());//aes256Service.encrypt(user_request_dto.getPassword()));
+        user.setPassword(
+                encryption_security.encryptPassword(user_request_dto.getPassword())
+        );
         user.setTaxId(user_request_dto.getTaxId().trim().toUpperCase());
         user_repository.existsByTaxId(user_request_dto.getTaxId().trim().toUpperCase());
 

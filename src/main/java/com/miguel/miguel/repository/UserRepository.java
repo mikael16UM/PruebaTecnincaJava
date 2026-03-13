@@ -9,4 +9,7 @@ import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User,UUID>, JpaSpecificationExecutor<User> {
     boolean existsByTaxId(String taxId);
+
+    Optional<User> findByTaxId(String taxId);
+
 }

@@ -22,12 +22,13 @@ public class UserRequestDto {
     @Email
     private String email;
 
-    @Pattern(
-            regexp = "^(\\+?52)?[0-9]{10}$",
-            message = "phone must be a valid 10 digit number with optional country code"
-    )
+    @NotBlank
     private String password;
 
+    @Pattern(
+            regexp = "^(\\+?[1-9][0-9]{9,11})",
+            message = "phone must be a valid 10 digit number with optional country code"
+    )
     private String phone;
 
     @Pattern(
