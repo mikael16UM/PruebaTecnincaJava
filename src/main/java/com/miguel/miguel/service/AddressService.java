@@ -19,7 +19,7 @@ public class AddressService implements AddressInterfaceService{
     }
 
     @Override
-    public AddressRequestDto addAddress(AddressRequestDto address_request_dto) {
+    public AddressResponseDto createAddress(AddressRequestDto address_request_dto) {
         return null;
     }
 
