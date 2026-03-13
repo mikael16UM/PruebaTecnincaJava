@@ -10,8 +10,10 @@ import com.miguel.miguel.mapper.UserMapper;
 import com.miguel.miguel.model.Address;
 import com.miguel.miguel.model.User;
 import com.miguel.miguel.repository.UserRepository;
+import com.miguel.miguel.validation.SortedFieldValidation;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +26,18 @@ public class UserService implements UserInterfaceService{
     private UserRepository user_repository;
 
     @Override
-    public List<UserResponseDto> getAllUsers() {
-        return user_repository.findAll().stream().map(UserMapper::toUserResponseDto).toList();
+    public List<UserResponseDto> getAllUsers(String sorted_by) {
+
+        SortedFieldValidation.FieldValidation(sorted_by);
+
+        if(sorted_by == null || sorted_by.isBlank()) {
+            return user_repository.findAll().stream().map(UserMapper::toUserResponseDto).toList();
+        }
+
+        Sort sorted_users = Sort.by(Sort.Direction.DESC, sorted_by);
+
+        return user_repository.findAll(sorted_users).stream().map(UserMapper::toUserResponseDto).toList();
+
     }
 
     @Override

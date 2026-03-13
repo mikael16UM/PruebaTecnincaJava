@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface UserInterfaceService {
 
-    List<UserResponseDto> getAllUsers();
+    List<UserResponseDto> getAllUsers(String sorted_by);
 
     UserResponseDto createUser(UserRequestDto user_request_dto);
 

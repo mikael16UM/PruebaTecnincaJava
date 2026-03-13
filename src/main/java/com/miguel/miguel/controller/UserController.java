@@ -9,11 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users")
-
 
 public class UserController {
 
@@ -39,5 +40,12 @@ public class UserController {
         UserResponseDto updatedUser = user_service.patchUser(id, user_patch_dto);
 
         return ResponseEntity.ok(updatedUser);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDto>> getAllUsers(@RequestParam(required = false) String sorted_by) {
+        List<UserResponseDto> user_sorted_list = user_service.getAllUsers(sorted_by);
+
+       return ResponseEntity.ok(user_sorted_list);
     }
 }
