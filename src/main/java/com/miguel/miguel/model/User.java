@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,17 +15,35 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue (strategy = GenerationType.UUID)
     private UUID id;
+    @Column(name = "email",  nullable = false)
     private String email;
+    @Column(name = "name",  nullable = false, length = 50)
     private String name;
+    @Column(name = "phone")
     private String phone;
+    @Column(name = "password", nullable = false)
     private String password;
-    private String tax_id;
+    @Column(name = "tax_id", unique = true)
+    private String taxId;
+    @Column(name = "created_at")
+    private ZonedDateTime createdAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Address> addresses;
+    private List<Address> addresses = new ArrayList<>();
+
+    public void addAddress(Address address) {
+        if (addresses == null) {
+            addresses = new ArrayList<>();
+        }
+
+        addresses.add(address);
+        address.setUser(this);
+    }
 
 }

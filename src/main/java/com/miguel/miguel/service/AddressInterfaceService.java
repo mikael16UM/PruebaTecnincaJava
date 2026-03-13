@@ -12,7 +12,7 @@ public interface AddressInterfaceService {
 
     AddressResponseDto getAddress(long id);
 
-    AddressRequestDto addAddress(AddressRequestDto address_request_dto);
+    AddressResponseDto createAddress(AddressRequestDto address_request_dto);
 
     void deleteAddress(AddressRequestDto address_request_dto);
 }

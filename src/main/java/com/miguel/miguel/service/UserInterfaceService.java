@@ -12,9 +12,9 @@ public interface UserInterfaceService {
 
     List<UserResponseDto> getAllUsers();
 
-    UserRequestDto createUser(UserRequestDto user_request_dto);
+    UserResponseDto createUser(UserRequestDto user_request_dto);
 
-    UserPatchDto patchUser(UUID id, UserPatchDto user_patch_dto);
+    UserResponseDto patchUser(UUID id, UserPatchDto user_patch_dto);
 
     UserResponseDto getUser(UUID id);
 
